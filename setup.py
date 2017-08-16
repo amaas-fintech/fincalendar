@@ -1,7 +1,9 @@
 from setuptools import setup, find_packages
 
 requires = [
-    'python-dateutil'
+    'python-dateutil',
+    'workalendar',
+    'pycountry'
 ]
 
 setup(

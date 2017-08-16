@@ -1,6 +1,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-SETTLEMENT_CYCLE = {'ARG': 3,  # Argentina
+EQUITY_SETTLEMENT_CYCLE = {'ARG': 3,  # Argentina
                     'AUS': 2,  # Australia
                     'AUT': 2,  # Austria
                     'BEL': 2,  # Belgium
