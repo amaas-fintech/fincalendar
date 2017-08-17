@@ -1,7 +1,7 @@
 import unittest
 from datetime import date
 
-from fincalendar.FX_settlement_date import get_fxforward_valuedate, get_fxspot_valuedate
+from fincalendar.fx_settlement_date import get_fxforward_valuedate, get_fxspot_valuedate
 
 
 class FxValueDateTest(unittest.TestCase):
