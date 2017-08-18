@@ -46,6 +46,7 @@ FX_SPOT_SETTLEMENT_CYCLE = {
 'EGP':2,
 'ERN':2,
 'ETB':2,
+'EUR':2,
 'FJD':2,
 'FKP':2,
 'GBP':2,
