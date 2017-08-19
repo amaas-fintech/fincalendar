@@ -1,2 +1,3 @@
 pycountry
+python-dateutil
 workalendar
