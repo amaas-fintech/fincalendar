@@ -75,6 +75,14 @@ class FxValueDateTest(unittest.TestCase):
         valuedate = date(2017,8,8)
         self.assertEqual(valuedate,get_fxspot_valuedate(pricing_date,assetcurrencycountry,pricingcurrencycountry))
 
+    def test_EuroSpecialCase(self):
+        assetcurrencycountry = 'EUR'
+        pricingcurrencycountry = 'USA'
+        pricing_date = date(2017,4,12)  #ordinary within week
+        valuedate = date(2017,4,18)
+        self.assertEqual(valuedate,get_fxspot_valuedate(pricing_date,assetcurrencycountry,pricingcurrencycountry))
+        
+    
     def test_InvalideCurrency(self):
         price_date = date(2017,8,4)
         currency = 'ABCDEF'

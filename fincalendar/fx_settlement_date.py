@@ -12,8 +12,11 @@ from fincalendar.foreign_exchange_config import get_settlement_day_convention
 def get_date_info(business_date, country_codes):
     calendars = {}
     for country_code in country_codes:
-        country = pycountry.countries.lookup(country_code)
-        calendars[country.alpha_3] = get_calendar(country.alpha_3)
+        if country_code.upper() != 'EUR':  # to circumvent the issue of missing country code for entire eurozone
+            country = pycountry.countries.lookup(country_code)
+            calendars[country.alpha_3] = get_calendar(country.alpha_3)
+        else:
+            calendars['EUR'] = get_calendar('EUR')
     date_info = {}
     for calendar_key, calendar in calendars.items():
         date_info[calendar_key] = {'working_day': calendar.is_working_day(business_date)}
