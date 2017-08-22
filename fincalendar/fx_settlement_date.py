@@ -138,3 +138,24 @@ def calc_tenor_value_date(price_date, currency, tenor):
     value_date = get_fxforward_valuedate(price_date,tenor,assetcurrencycountry,pricingcurrencycountry)
     return value_date
     
+
+def calc_fixing_date(currency, value_date):    
+    '''
+    This method returns the NDF fixing date for a given settlement date. Caller should make sure the input currency is a NDF pair
+    '''
+
+    if len(currency) != 6: 
+        raise ValueError("Invalid currency: %s, please enter a currency pair in the format like: EURUSD" % currency)
+    if value_date.isoweekday() not in range(1,6):
+        raise ValueError("Invalid value date: %s. Please make sure the date is a weekend" % value_date)
+
+    assetcurrencycountry = currency_to_countrycode(currency[:3])
+    pricingcurrencycountry = currency_to_countrycode(currency[3:])    
+    fixing_date = value_date
+
+    while get_fxspot_valuedate(price_date = fixing_date, 
+                               assetcurrencycountry = assetcurrencycountry, 
+                               pricingcurrencycountry = pricingcurrencycountry) != value_date:
+        fixing_date -= timedelta(days = 1) if fixing_date.isoweekday() in range(2,6) else timedelta(days=3)
+    return fixing_date
+
