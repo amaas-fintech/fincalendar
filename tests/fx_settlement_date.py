@@ -1,7 +1,7 @@
 import unittest
 from datetime import date
 
-from fincalendar.fx_settlement_date import get_fxforward_valuedate, get_fxspot_valuedate
+from fincalendar.fx_settlement_date import get_fxforward_valuedate, get_fxspot_valuedate, calc_tenor_value_date
 
 
 class FxValueDateTest(unittest.TestCase):
@@ -61,7 +61,6 @@ class FxValueDateTest(unittest.TestCase):
         valuedate = date(2017,7,5)
         self.assertEqual(valuedate,get_fxspot_valuedate(pricing_date,assetcurrencycountry,pricingcurrencycountry))
 
-
     def test_SpotCross3(self):        
         assetcurrencycountry = 'SGP'
         pricingcurrencycountry = 'KOR'
@@ -76,6 +75,23 @@ class FxValueDateTest(unittest.TestCase):
         valuedate = date(2017,8,8)
         self.assertEqual(valuedate,get_fxspot_valuedate(pricing_date,assetcurrencycountry,pricingcurrencycountry))
 
+    def test_InvalideCurrency(self):
+        price_date = date(2017,8,4)
+        currency = 'ABCDEF'
+        tenor = '100M'        
+        self.assertRaises(ValueError, calc_tenor_value_date, price_date, currency, tenor)
+    
+    def test_InvalidPriceDate(self):
+        price_date = None
+        currency = 'CNYEUR'
+        tenor = '10M'
+        self.assertRaises(ValueError, calc_tenor_value_date, price_date, currency, tenor)
+
+    def test_InvalidTenor(self):
+        price_date = date(2017,8,4)
+        currency = 'SGDKRW'
+        tenor = '100M'
+        self.assertRaises(ValueError, calc_tenor_value_date, price_date, currency, tenor)
 
 
 if __name__ == '__main__':

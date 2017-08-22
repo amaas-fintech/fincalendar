@@ -108,29 +108,29 @@ def calc_tenor_value_date(price_date, currency, tenor):
     """
 
     if not price_date:
-        raise BadRequestError('Must specify price_date in querystring')
+        raise ValueError('Must specify price_date in querystring')
         
     if not tenor:
-        raise BadRequestError('Must specify a tenor in querystring')
+        raise ValueError('Must specify a tenor in querystring')
     tenor = str(tenor).upper()
-    tenors = ['ON','TN','SP','SN','1W','2W','3W','1M','2M','3M','4M','5M','6M','7M','8M','9M','10M','12M','15M','18M','21M','2Y']
+    tenors = ['ON','TN','SP','SN','1W','2W','3W','1M','2M','3M','4M','5M','6M','7M','8M','9M','10M','11M','12M','15M','18M','21M','2Y']
     if tenor not in tenors:
-        raise BadRequestError('Requested tenor is not supported for value date calculation')
+        raise ValueError('Requested tenor is not supported for value date calculation')
 
     currencypair = currency
     if not currencypair:
-        raise BadRequestError('Must specify a currency pair in querystring')
+        raise ValueError('Must specify a currency pair in querystring')
 
     currencypair = str(currencypair).upper()
     if len(currencypair) != 6:    
-        raise BadRequestError('Currency pair format error, currency pair length is not 6 characters.')
+        raise ValueError('Currency pair format error, currency pair length is not 6 characters.')
     assetcurrencycountry = currency_to_countrycode( currencypair[:3])
     pricingcurrencycountry = currency_to_countrycode( currencypair[3:])
 
     if not assetcurrencycountry:
-        raise BadRequestError("%s is currently not supported currency."% (assetcurrency))
+        raise ValueError("%s is currently not supported currency."% (assetcurrency))
     if not pricingcurrencycountry:
-        raise BadRequestError("%s is currently not supported currency."% (pricingcurrency))
+        raise ValueError("%s is currently not supported currency."% (pricingcurrency))
     
     value_date = get_fxforward_valuedate(price_date,tenor,assetcurrencycountry,pricingcurrencycountry)
     return value_date
