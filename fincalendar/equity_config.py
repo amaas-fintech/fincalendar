@@ -5,7 +5,7 @@ EQUITY_SETTLEMENT_CYCLE = {'ARG': 3,  # Argentina
                     'AUT': 2,  # Austria
                     'BEL': 2,  # Belgium
                     'BRA': 3,  # Brazil
-                    'CAN': 3,  # Canada - this is moving to 2 on Sep 5th 2017!
+                    'CAN': 2,  # Canada
                     'CHN': 3,  # China - this is only for foreigners!
                     'CHE': 2,  # Switzerland
                     'DEU': 2,  # Germany
@@ -36,7 +36,7 @@ EQUITY_SETTLEMENT_CYCLE = {'ARG': 3,  # Argentina
                     'THA': 3,  # Thailand
                     'TWN': 2,  # Taiwan
                     'TUR': 2,  # Turkey
-                    'USA': 3,  # USA  - this is moving to 2 on Sep 5th 2017!
+                    'USA': 2,  # USA
                     'VNM': 3,  # Viet Nam
                     'ZAF': 3   # South Africa
                    }
