@@ -8,7 +8,7 @@ requires = [
 
 setup(
     name='fincalendar',
-    version='0.1.3',
+    version='0.1.4',
     description='Finance Calendar',
     license='Apache License 2.0',
     url='https://github.com/amaas-fintech/fincalendar',
