@@ -1,7 +1,7 @@
 import unittest
 from datetime import date
 
-from fincalendar.fx_settlement_date import get_fxforward_valuedate, get_fxspot_valuedate
+from fincalendar.fx_settlement_date import get_fxforward_valuedate, get_fxspot_valuedate, calc_tenor_value_date, calc_fixing_date
 
 
 class FxValueDateTest(unittest.TestCase):
@@ -61,7 +61,6 @@ class FxValueDateTest(unittest.TestCase):
         valuedate = date(2017,7,5)
         self.assertEqual(valuedate,get_fxspot_valuedate(pricing_date,assetcurrencycountry,pricingcurrencycountry))
 
-
     def test_SpotCross3(self):        
         assetcurrencycountry = 'SGP'
         pricingcurrencycountry = 'KOR'
@@ -76,7 +75,61 @@ class FxValueDateTest(unittest.TestCase):
         valuedate = date(2017,8,8)
         self.assertEqual(valuedate,get_fxspot_valuedate(pricing_date,assetcurrencycountry,pricingcurrencycountry))
 
+    def test_EuroSpecialCase(self):
+        assetcurrencycountry = 'EUR'
+        pricingcurrencycountry = 'USA'
+        pricing_date = date(2017,4,12)  #ordinary within week
+        valuedate = date(2017,4,18)
+        self.assertEqual(valuedate,get_fxspot_valuedate(pricing_date,assetcurrencycountry,pricingcurrencycountry))
+        
+    
+    def test_InvalideCurrency(self):
+        price_date = date(2017,8,4)
+        currency = 'ABCDEF'
+        tenor = '100M'        
+        self.assertRaises(ValueError, calc_tenor_value_date, price_date, currency, tenor)
+    
+    def test_InvalidPriceDate(self):
+        price_date = None
+        currency = 'CNYEUR'
+        tenor = '10M'
+        self.assertRaises(ValueError, calc_tenor_value_date, price_date, currency, tenor)
 
+    def test_InvalidTenor(self):
+        price_date = date(2017,8,4)
+        currency = 'SGDKRW'
+        tenor = '100M'
+        self.assertRaises(ValueError, calc_tenor_value_date, price_date, currency, tenor)
+
+    def test_CalcFixingDate(self):
+        currency = 'USDKRW'
+        value_date = date(2017, 9, 7)
+        self.assertEqual(date(2017, 9, 5) , calc_fixing_date(currency = currency, value_date = value_date)) 
+
+    def test_CalcFixingDate(self):
+        currency = 'USDKRW'
+        value_date = date(2017, 8, 22)
+        self.assertEqual(date(2017, 8, 18) , calc_fixing_date(currency = currency, value_date = value_date)) 
+
+    def test_CalcFixingDate(self):
+        currency = 'USDMYR'
+        value_date = date(2017, 2, 10)
+        self.assertEqual(date(2017, 2, 7) , calc_fixing_date(currency = currency, value_date = value_date)) 
+
+    def test_CalcFixingDate(self):
+        currency = 'USDMYR'
+        value_date = date(2017, 1, 31)
+        self.assertEqual(date(2017, 1, 26) , calc_fixing_date(currency = currency, value_date = value_date)) 
+
+    def test_CalcFixingDate(self):
+        currency = 'USDMYR'
+        value_date = date(2017, 4, 17)
+        self.assertEqual(date(2017, 4, 13) , calc_fixing_date(currency = currency, value_date = value_date)) 
+
+    def test_CalcFixingDate(self):
+        currency = 'USDMYR'
+        value_date = date(2017, 9, 14)
+        self.assertEqual(date(2017, 9, 12) , calc_fixing_date(currency = currency, value_date = value_date)) 
 
 if __name__ == '__main__':
     unittest.main()
