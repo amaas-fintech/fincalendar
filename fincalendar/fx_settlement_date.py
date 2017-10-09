@@ -103,9 +103,12 @@ def is_holiday(countries, date):
     return False
 
 def tenor_validity(tenor):
-    if (len(tenor) in [2, 3] and tenor[-1] in ['W', 'M', 'Y'] and int(tenor[:-1]) in range(100)) or tenor in ['ON','TN','SP','SN']:
-        return True
-    return False
+    try:
+        if (len(tenor) in [2, 3] and tenor[-1] in ['W', 'M', 'Y'] and int(tenor[:-1]) in range(100)) or tenor in ['ON','TN','SP','SN']:
+            return True
+        return False
+    except Exception:
+        return False
 
 def calc_tenor_value_date(price_date, currency, tenor):
     """
