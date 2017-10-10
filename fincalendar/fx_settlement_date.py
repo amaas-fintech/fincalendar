@@ -102,6 +102,13 @@ def is_holiday(countries, date):
         if value.get('working_day') == False: return True
     return False
 
+def tenor_validity(tenor):
+    try:
+        if (len(tenor) in [2, 3] and tenor[-1] in ['W', 'M', 'Y'] and int(tenor[:-1]) in range(100)) or tenor in ['ON','TN','SP','SN']:
+            return True
+        return False
+    except Exception:
+        return False
 
 def calc_tenor_value_date(price_date, currency, tenor):
     """
@@ -116,9 +123,9 @@ def calc_tenor_value_date(price_date, currency, tenor):
     if not tenor:
         raise ValueError('Must specify a tenor in querystring')
     tenor = str(tenor).upper()
-    tenors = ['ON','TN','SP','SN','1W','2W','3W','1M','2M','3M','4M','5M','6M','7M','8M','9M','10M','11M','12M','15M','18M','21M','2Y']
-    if tenor not in tenors:
-        raise ValueError('Requested tenor is not supported for value date calculation')
+    valid_tenor = tenor_validity(tenor)
+    if not valid_tenor:
+        raise ValueError('Requested tenor: %s is not supported for value date calculation'%tenor)
 
     currencypair = currency
     if not currencypair:
@@ -147,7 +154,7 @@ def calc_fixing_date(currency, value_date):
     if len(currency) != 6: 
         raise ValueError("Invalid currency: %s, please enter a currency pair in the format like: EURUSD" % currency)
     if value_date.isoweekday() not in range(1,6):
-        raise ValueError("Invalid value date: %s. Please make sure the date is a weekend" % value_date)
+        raise ValueError("Invalid value date: %s. Please make sure the date is NOT a weekend" % value_date)
 
     assetcurrencycountry = currency_to_countrycode(currency[:3])
     pricingcurrencycountry = currency_to_countrycode(currency[3:])    
