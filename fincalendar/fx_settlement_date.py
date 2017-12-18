@@ -152,7 +152,7 @@ def calc_fixing_date(currency, value_date):
     '''
 
     if get_ndf_fixing_delivery_convention(currency) is None: 
-        raise ValueError("Invalid currency: %s, please enter a currency pair in the format like: EURUSD" % currency)
+        raise ValueError("Currency: %s not found in supported NDF currency pairs" % currency)
     if value_date.isoweekday() not in range(1,6):
         raise ValueError("Invalid value date: %s. Please make sure the date is NOT a weekend" % value_date)
 
