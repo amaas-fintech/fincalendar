@@ -6,7 +6,7 @@ from calendar import monthrange
 
 from fincalendar.holiday_mapping import get_calendar
 from fincalendar.currency_countrycode_mapping import currency_to_countrycode, countrycode_to_currency
-from fincalendar.foreign_exchange_config import get_settlement_day_convention
+from fincalendar.foreign_exchange_config import get_settlement_day_convention, get_ndf_fixing_delivery_convention
 
 
 def get_date_info(business_date, country_codes):
@@ -151,7 +151,7 @@ def calc_fixing_date(currency, value_date):
     This method returns the NDF fixing date for a given settlement date. Caller should make sure the input currency is a NDF pair
     '''
 
-    if len(currency) != 6: 
+    if get_ndf_fixing_delivery_convention(currency) is None: 
         raise ValueError("Invalid currency: %s, please enter a currency pair in the format like: EURUSD" % currency)
     if value_date.isoweekday() not in range(1,6):
         raise ValueError("Invalid value date: %s. Please make sure the date is NOT a weekend" % value_date)
@@ -162,7 +162,6 @@ def calc_fixing_date(currency, value_date):
 
     while get_fxspot_valuedate(price_date = fixing_date, 
                                assetcurrencycountry = assetcurrencycountry, 
-                               pricingcurrencycountry = pricingcurrencycountry) != value_date:
-        fixing_date -= timedelta(days = 1) if fixing_date.isoweekday() in range(2,6) else timedelta(days=3)
+                               pricingcurrencycountry = pricingcurrencycountry) > value_date:
+        fixing_date -= timedelta(days=1) if fixing_date.isoweekday() in range(2,6) else timedelta(days=3)
     return fixing_date
-
