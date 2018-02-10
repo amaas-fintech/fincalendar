@@ -174,6 +174,21 @@ FX_SPOT_CROSS_SETTLEMENT_CYCLE = {
     'TRYTRL': 1
 }
 
+NDF_FIXING_DELIVERY_CONVENTION = {
+    # Return the number of days difference from fixing date to delivery (settlement) date
+    'USDCNY': 2,
+    'USDKRW': 2,
+    'USDMYR': 2,
+    'USDINR': 2,
+    'USDIDR': 2,
+    'USDTWD': 2,
+    'USDVND': 2,
+    'USDPHP': 1
+}
+
+def get_ndf_fixing_delivery_convention(pair):
+    return NDF_FIXING_DELIVERY_CONVENTION.get(pair, None)
+
 def get_settlement_day_convention(base_currency,pricing_currency):
     """
 
