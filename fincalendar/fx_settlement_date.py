@@ -19,7 +19,12 @@ def get_date_info(business_date, country_codes):
             calendars['EUR'] = get_calendar('EUR')
     date_info = {}
     for calendar_key, calendar in calendars.items():
-        date_info[calendar_key] = {'working_day': calendar.is_working_day(business_date)}
+        try:
+            date_info[calendar_key] = {'working_day': calendar.is_working_day(business_date)}
+        except KeyError:
+            # To suppress error caused by missing islamic holiday
+            # not a good solution though
+            date_info[calendar_key] = {'working_day': business_date.isoweekday() < 6}
     return date_info
 
 
