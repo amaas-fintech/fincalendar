@@ -1,7 +1,8 @@
 import unittest
 from datetime import date
 
-from fincalendar.fx_settlement_date import get_fxforward_valuedate, get_fxspot_valuedate, calc_tenor_value_date, calc_fixing_date
+from fincalendar.fx_settlement_date import get_fxforward_valuedate, get_fxspot_valuedate, \
+            calc_tenor_value_date, calc_fixing_date, get_date_info
 
 
 class FxValueDateTest(unittest.TestCase):
@@ -129,7 +130,11 @@ class FxValueDateTest(unittest.TestCase):
     def test_CalcFixingDate(self):
         currency = 'USDMYR'
         value_date = date(2017, 9, 14)
-        self.assertEqual(date(2017, 9, 12) , calc_fixing_date(currency = currency, value_date = value_date)) 
+        self.assertEqual(date(2017, 9, 12) , calc_fixing_date(currency = currency, value_date = value_date))
+
+    def test_IslamicHolidayErrorSuppression(self):
+        working_day = get_date_info(date(2020, 4, 28), ['SGP'])['SGP']['working_day']
+        self.assertTrue(working_day in [True, False], True)
 
 if __name__ == '__main__':
     unittest.main()
