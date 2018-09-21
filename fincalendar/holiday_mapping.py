@@ -18,7 +18,7 @@ from workalendar.asia import Singapore
 from workalendar.asia import SouthKorea
 from workalendar.asia import Taiwan
 from workalendar.oceania import Australia
-from workalendar.america import Canada
+from workalendar.canada import Canada
 from workalendar.europe import Austria
 from workalendar.europe import Belgium
 from workalendar.europe import Bulgaria
