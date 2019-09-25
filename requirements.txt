@@ -1,4 +1,4 @@
 mock
 pycountry
 python-dateutil
-workalendar
+workalendar==3.1.0
